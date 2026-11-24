@@ -1,0 +1,75 @@
+/*
+ * Workspace Dark
+ *
+ * How it works: the whole page is inverted (with a hue rotation so colors keep
+ * their hue), then anything that should keep its real colors — photos, avatars,
+ * thumbnails, Docs pages, Slides canvases, charts — is inverted back.
+ *
+ * Inverting rather than restyling every Google class means the dark theme
+ * survives most of Google's UI updates. If Google renames one of the
+ * containers below and a page or slide turns dark, that selector is the
+ * one to update.
+ *
+ * --gwd-dark is applied to the page; --gwd-undo is its exact inverse
+ * (filters run left to right, so the undo list is reversed). contrast(0.9)
+ * keeps the result from being pure black / pure white.
+ */
+
+:root {
+  --gwd-dark: invert(1) hue-rotate(180deg) contrast(0.9);
+  --gwd-undo: contrast(1.1111) hue-rotate(180deg) invert(1);
+}
+
+html.gwd-on {
+  filter: var(--gwd-dark) !important;
+  /* Inverts to a dark background behind everything, including overscroll. */
+  background-color: #fff !important;
+}
+
+/* ---------- Things that keep their real colors on every app ---------- */
+
+/* Elements inside an already-restored area are skipped so they aren't flipped twice. */
+html.gwd-on :is(img, video, picture, iframe[src*="youtube"]):not(:is(
+  .kix-page-paginated, .kix-page, .kix-page-compact,
+  #workspace-container svg, .punch-filmstrip-thumbnail, .punch-viewer-container,
+  .punch-present-iframe, .punch-full-screen-element,
+  .waffle-embedded-object-overlay, .waffle-borderless-embedded-object-overlay,
+  #waffle-grid-container
+) *) {
+  filter: var(--gwd-undo) !important;
+}
+
+/* ---------- Docs: keep pages white ---------- */
+
+/* Paginated (canvas) pages, legacy DOM pages and pageless mode. */
+html.gwd-on.gwd-app-docs :is(.kix-page-paginated, .kix-page, .kix-page-compact) {
+  filter: var(--gwd-undo) !important;
+}
+
+/* ---------- Slides: keep slides white ---------- */
+
+/* Main editing canvas (SVG), filmstrip thumbnails, and present mode. */
+html.gwd-on.gwd-app-slides :is(
+  #workspace-container svg,
+  .punch-filmstrip-thumbnail,
+  .punch-viewer-container,
+  .punch-present-iframe,
+  .punch-full-screen-element
+) {
+  filter: var(--gwd-undo) !important;
+}
+
+/* ---------- Sheets ---------- */
+
+/* Charts and drawings floating over the grid keep their real colors. */
+html.gwd-on.gwd-app-sheets :is(
+  .waffle-embedded-object-overlay,
+  .waffle-borderless-embedded-object-overlay
+) {
+  filter: var(--gwd-undo) !important;
+}
+
+/* Optional: leave the cell grid light (toggle in the popup). */
+html.gwd-on.gwd-light-grid #waffle-grid-container {
+  filter: var(--gwd-undo) !important;
+}

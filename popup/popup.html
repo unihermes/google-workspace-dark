@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="../icons/icon.svg" alt="" width="20" height="20">
+    <h1>Workspace Dark</h1>
+    <label class="switch" title="Turn dark mode on or off everywhere">
+      <input type="checkbox" data-key="enabled">
+      <span></span>
+    </label>
+  </header>
+
+  <section id="apps">
+    <label class="row"><span>Drive</span><input type="checkbox" data-key="drive"></label>
+    <label class="row"><span>Docs <small>pages stay white</small></span><input type="checkbox" data-key="docs"></label>
+    <label class="row"><span>Slides <small>slides stay white</small></span><input type="checkbox" data-key="slides"></label>
+    <label class="row"><span>Sheets</span><input type="checkbox" data-key="sheets"></label>
+    <label class="row sub"><span>Dark cell grid</span><input type="checkbox" data-key="sheetsGrid"></label>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>
